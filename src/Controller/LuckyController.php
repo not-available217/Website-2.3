@@ -25,4 +25,10 @@ class LuckyController extends AbstractController
             'number' => $number
         ]);
     }
+    
+    #[Route('/')]
+    public function index() : Response
+    {
+        return $this->render('index.html.twig', []);
+    }
 }
