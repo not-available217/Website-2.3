@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+  </head>
+
+  <body class="text-center">
+    <form class="form-signin" method="post">
+	  
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+		
+    {% if app.user %}
+        <div class="mb-3">
+           Je bent ingelogd als {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+      <!--<img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+      <h1 class="h3 mb-3 font-weight-normal">U moet inloggen om verder te gaan.</h1>
+      <label for="inputUsername" class="sr-only">Gebruikersnaam</label>
+      <input type="text" value="{{last_username}}" name="username" id="inputUsername" class="form-control" placeholder="Gebruikersnaam" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" name="password" autocomplete="current-password" placeholder="Wachtwoord" required> 
+      <input type="hidden" name="_csrf_token"
+			 value="{{ csrf_token('authenticate') }}"
+			 >
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="_remember_me"> Onthoud mij
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+      <p class="mt-5 mb-3 text-muted">&copy; WeerData 2022</p>
+    </form>
+  </body>
+</html>
