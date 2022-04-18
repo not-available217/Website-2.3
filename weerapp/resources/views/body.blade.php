@@ -4,7 +4,11 @@
 			<!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Zoeken" aria-label="Zoeken"> -->
 			<ul class="navbar-nav px-3">
 				<li class="nav-item text-nowrap">
-					<a class="nav-link" href="#">Log uit</a>
+					@if (Auth::guest())
+						<a class="nav-link" href="/login">Log in</a>
+					@else
+						<a class="nav-link" href="/logout">Log uit</a>
+					@endif
 				</li>
 			</ul>
 		</nav>
