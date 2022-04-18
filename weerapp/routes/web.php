@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('index', ['name' => 'Finn']);
 });
 
+Route::get('/login', function () {
+    return view('login', ['name' => 'Finn']);
+});
+
 Route::get('/greeting', function () {
     return 'Hello World';
 });
