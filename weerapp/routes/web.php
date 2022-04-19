@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,7 +20,20 @@ Route::get('/dashboard', function () {
 
 Route::get('/', function () {
     return view('login');
-});
+})->name('login');
+
+Route::get('/mijn-gegevens', function () {
+    return view('mijn-gegevens');
+})->middleware('auth');
+
+Route::post('/mijn-gegevens-opslaan', function(Request $request)
+{
+    $user = Auth::user();
+    $user->name = $request->post('name');
+    $user->save();
+    
+    return redirect()->back()->with('success', 'Uw gegevens zijn bijgewerkt.');  
+})->middleware('auth');
 
 Route::post('/post/login', [LoginController::class, 'authenticate']);
 Route::get('/logout', [LoginController::class, 'logout']);
