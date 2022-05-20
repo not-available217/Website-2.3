@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +28,32 @@ Route::get('/mijn-gegevens', function () {
     return view('mijn-gegevens');
 })->middleware('auth');
 
+Route::get('/genereer-token', function () {
+    return view('genereer-token');
+})->middleware('auth');
+
+Route::get('/tokens', function()
+{
+    $tokens = \App\Models\Token::all();
+    return view('token-overzicht', ["tokens" => $tokens]);
+})->middleware('auth');
+
+Route::get('/v1/request-weather-data/{token}', function ($token)
+{
+    $tokenObject = DB::table('tokens')->where('token','=',$token)->get();
+    if($tokenObject == null)
+        return response()->json(['error' => 'Unauthenticated.'], 401);
+    return response()->json([
+        'name' => 'Abigail',
+        'state' => 'CA',
+    ]);
+});
+
+Route::any('/postWeatherData', function(Request $request)
+{
+    Log::debug($request);
+});
+
 Route::post('/mijn-gegevens-opslaan', function(Request $request)
 {
     $user = Auth::user();
@@ -33,6 +61,16 @@ Route::post('/mijn-gegevens-opslaan', function(Request $request)
     $user->save();
     
     return redirect()->back()->with('success', 'Uw gegevens zijn bijgewerkt.');  
+})->middleware('auth');
+
+Route::post('/genereer-token', function(Request $request)
+{
+    $contract = (int)$request->post('contract');
+    $token = new App\Models\Token();
+    $token->contract = $contract;
+    $token->token = Str::random(64);
+    $token->save();
+    return redirect()->back()->with('success', 'Token is aangemaakt! De token betreft: ' . $token->token);  
 })->middleware('auth');
 
 Route::post('/post/login', [LoginController::class, 'authenticate']);

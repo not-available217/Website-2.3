@@ -31,6 +31,18 @@
 								</a>
 							</li>
 							<li class="nav-item">
+								<a class="nav-link" href="/genereer-token">
+									<span data-feather="file"></span>
+									Token genereren
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/tokens">
+									<span data-feather="file"></span>
+									Token overzicht
+								</a>
+							</li>
+							<li class="nav-item">
 								<a class="nav-link" href="#">
 									<span data-feather="file"></span>
 									Geexporteerde data
